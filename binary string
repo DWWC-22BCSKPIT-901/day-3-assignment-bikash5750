@@ -1,0 +1,31 @@
+#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+string makeLargestSpecial(string s) {
+    vector<string> res;
+    int count = 0, start = 0;
+
+    for (int i = 0; i < s.size(); ++i) {
+        if (s[i] == '1') count++;
+        else count--;
+
+        if (count == 0) {
+            res.push_back("1" + makeLargestSpecial(s.substr(start + 1, i - start - 1)) + "0");
+            start = i + 1;
+        }
+    }
+
+    sort(res.rbegin(), res.rend());
+    return accumulate(res.begin(), res.end(), string());
+}
+
+int main() {
+    string s;
+    cout << "Enter special binary string: ";
+    cin >> s;
+    cout << "Lexicographically largest result: " << makeLargestSpecial(s) << endl;
+    return 0;
+}
