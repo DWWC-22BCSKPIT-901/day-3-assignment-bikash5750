@@ -1,0 +1,49 @@
+#include <iostream>
+using namespace std;
+
+struct ListNode {
+    int val;
+    ListNode* next;
+    ListNode(int x) : val(x), next(nullptr) {}
+};
+
+ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+    ListNode* dummy = new ListNode(0);
+    ListNode* p = l1, * q = l2, * curr = dummy;
+    int carry = 0;
+    while (p || q) {
+        int x = (p) ? p->val : 0;
+        int y = (q) ? q->val : 0;
+        int sum = carry + x + y;
+        carry = sum / 10;
+        curr->next = new ListNode(sum % 10);
+        curr = curr->next;
+        if (p) p = p->next;
+        if (q) q = q->next;
+    }
+    if (carry) {
+        curr->next = new ListNode(carry);
+    }
+    return dummy->next;
+}
+
+int main() {
+    // Example input
+    ListNode* l1 = new ListNode(2);
+    l1->next = new ListNode(4);
+    l1->next->next = new ListNode(3);
+
+    ListNode* l2 = new ListNode(5);
+    l2->next = new ListNode(6);
+    l2->next->next = new ListNode(4);
+
+    cout << "Adding two numbers represented as linked lists: ";
+    ListNode* result = addTwoNumbers(l1, l2);
+    while (result) {
+        cout << result->val << " ";
+        result = result->next;
+    }
+    cout << endl;
+
+    return 0;
+}
